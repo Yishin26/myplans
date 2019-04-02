@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import {signUp} from '../../store/actions/authActions'
 
 
 class SignUp extends Component {
@@ -15,14 +16,13 @@ class SignUp extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
+   this.props.signUp(this.state);
   };
   render() {
 
-    const {  auth } = this.props;
+   const { auth, authError } = this.props;
     if (auth.uid) {
-      // 如果已經登入，就不需要再進入註冊頁，重新導向首頁
-      return <Redirect to="/" />;
+      return <Redirect to="/" />; // 如果已經登入，就不需要再進入註冊頁，重新導向首頁
     }
     return (
       <div className="container">
@@ -56,6 +56,9 @@ class SignUp extends Component {
           <div className="input-field">
             <button className="btn pink lighten z-depth-0">Login</button>
           </div>
+          <div className="red-text ">
+            {authError ? <p>{authError}</p> : null}
+          </div>
         </form>
       </div>
     );
@@ -63,9 +66,17 @@ class SignUp extends Component {
 }
 const mapStateToProps = state => {
   return {
-   
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    authError: state.auth.authError
   };
 };
+const mapDispatchToProps=dispatch=>{
+  return{
+    signUp: (creds) => dispatch(signUp(creds))
 
-export default connect(mapStateToProps)(SignUp);
+}}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignUp);
