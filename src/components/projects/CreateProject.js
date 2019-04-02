@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createProject } from "../../store/actions/projectActions";
+import { Redirect } from "react-router-dom";
 
 class CreateProject extends Component {
   state = { title: "", content: "" };
@@ -13,6 +14,10 @@ class CreateProject extends Component {
     this.props.createProject(this.state);
   };
   render() {
+    const {auth}=this.props;
+    if (!auth.uid) {
+      return <Redirect to="/signin" />; // 保護未登入時重新導向登入頁
+    }
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white">
@@ -40,9 +45,17 @@ class CreateProject extends Component {
   }
 }
 
+const mapStateToprops=(state)=>{
+  return{
+    auth:state.firebase.auth
+  }
+}
 const mapDispatchToprops = dispatch => {
   return {
     createProject: (project) => dispatch(createProject(project)) // 13行呼叫，名稱要吻合
   };
 };
-export default connect(null,mapDispatchToprops)(CreateProject);
+export default connect(
+  mapStateToprops,
+  mapDispatchToprops
+)(CreateProject);

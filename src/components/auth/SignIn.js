@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux';
 import { signIn } from "../../store/actions/authActions";
+import { Redirect } from "react-router-dom";
 
 class SignIn extends Component {
   state = { email: "", password: "" };
@@ -12,7 +13,10 @@ class SignIn extends Component {
     this.props.signIn(this.state);
   };
   render() {
-    const{authError}=this.props
+    const{authError,auth}=this.props;
+     if (auth.uid) { // 如果已經登入，就不需要再進入登入頁，重新導向首頁
+       return <Redirect to="/" />;
+     }
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white">
@@ -44,7 +48,8 @@ class SignIn extends Component {
 }
 const mapStateToProps = state => {
   return {
-    authError: state.auth.authError
+    authError: state.auth.authError,
+    auth:state.firebase.auth
   };
 };
 
