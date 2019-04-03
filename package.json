@@ -15,6 +15,7 @@
     "redux-firestore": "^0.7.2",
     "redux-thunk": "^2.3.0"
   },
+  "homepage":"https://my-plans-1346c.firebaseapp.com/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

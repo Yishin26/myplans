@@ -33,7 +33,6 @@ exports.userJoined = functions.auth.user().onCreate(user => {
   return admin
     .firestore()
     .collection("users")
-    .orderBy("time", "desc")
     .doc(user.uid)
     .get()
     .then(doc => {
