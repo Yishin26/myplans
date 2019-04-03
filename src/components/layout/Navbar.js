@@ -13,15 +13,17 @@ const Navbar = props => {
     <SignedOutLink />
   );
   return (
-    <nav className="nav-wrapper   teal darken-3">
-      <div className="container">
-        <Link to="/" className="brand-logo">
-          My Plans
-        </Link>
+    <div className="navbar-fixed">
+      <nav className="nav-wrapper  teal darken-3 ">
+        <div className="container">
+          <Link to="/" className="brand-logo">
+            My Plans
+          </Link>
 
-        {link}
-      </div>
-    </nav>
+          {link}
+        </div>
+      </nav>{" "}
+    </div>
   );
 };
 const mapStateToProps = state => {
